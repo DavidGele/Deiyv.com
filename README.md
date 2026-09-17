@@ -35,3 +35,72 @@ Si Pages marca error de dominio y el DNS todavía no apunta, borra `CNAME` hasta
 2. Confirma handles reales de Instagram / TikTok / YouTube.
 3. Sustituye `hola@deiyv.com` cuando el correo esté creado.
 4. Apunta el dominio `deiyv.com` al servicio que elijas abajo.
+
+## Despliegue barato en Google Cloud (opcional)
+
+El contenedor usa `nginx:alpine`, **128 MiB RAM**, **min instances = 0**. Sin tráfico el costo tiende a **0 USD** (quedan centavos si dejas Cloud Build o un IP reservada; no reserves IP).
+
+### Opción A — Cloud Run (la que pide este repo)
+
+```bash
+gcloud services enable run.googleapis.com cloudbuild.googleapis.com containerregistry.googleapis.com
+gcloud run deploy deiyv \
+  --source . \
+  --region us-central1 \
+  --allow-unauthenticated \
+  --min-instances 0 \
+  --max-instances 3 \
+  --memory 128Mi \
+  --cpu 1 \
+  --port 8080
+```
+
+Dominio:
+
+```bash
+gcloud run domain-mappings create --service deiyv --domain deiyv.com --region us-central1
+```
+
+Cada push a `main` se puede atar a Cloud Build con el archivo `cloudbuild.yaml` (Triggers → repositorio GitHub `DavidGele/Deiyv.com`).
+
+### Opción B — Firebase Hosting (casi siempre más barata)
+
+Capa gratuita generosa. Un bucket global, HTTPS incluido.
+
+```bash
+npm i -g firebase-tools
+firebase login
+firebase init hosting   # public = .
+firebase deploy
+```
+
+### Opción C — Cloud Storage + load balancer
+
+Sirve archivos crudos. Sale a fracciones de peso si el tráfico es bajo, pero el balanceador tiene costo fijo: **no la uses** hasta tener visitas de verdad. Cloud Run a escala 0 o Firebase ganan con tráfico cero.
+
+## Lo que no se paga
+
+- No hay Cloud SQL, Redis ni Cloud Functions.
+- No hay min instances.
+- No hay formulario que escriba a un backend.
+- Las fuentes vienen de Google Fonts; si quieres 0 requests de terceros, descárgalas después.
+
+## SEO incluido
+
+- Títulos y descripciones únicos, `es-MX`
+- Canonical, Open Graph, Twitter card
+- JSON-LD de Organization + Person + WebSite + Article
+- `sitemap.xml` y `robots.txt`
+- HTML semántico, una sola CSS, JS mínimo
+- Imágenes comprimidas < 130 KB
+
+## Mapa
+
+| Ruta | Rol |
+| --- | --- |
+| `/` | Venta |
+| `/servicios.html` | Precios de lista |
+| `/trabajo.html` | Archivo visual |
+| `/casa.html` | ROMBO + Deiyv |
+| `/oficio/` | Contenido que posiciona |
+| `/contacto.html` | Brief → WhatsApp |
