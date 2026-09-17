@@ -1,0 +1,28 @@
+steps:
+  - name: gcr.io/cloud-builders/docker
+    args: ["build", "-t", "gcr.io/$PROJECT_ID/deiyv:$SHORT_SHA", "-t", "gcr.io/$PROJECT_ID/deiyv:latest", "."]
+  - name: gcr.io/cloud-builders/docker
+    args: ["push", "gcr.io/$PROJECT_ID/deiyv:$SHORT_SHA"]
+  - name: gcr.io/cloud-builders/docker
+    args: ["push", "gcr.io/$PROJECT_ID/deiyv:latest"]
+  - name: gcr.io/google.com/cloudsdktool/cloud-sdk
+    entrypoint: gcloud
+    args:
+      - run
+      - deploy
+      - deiyv
+      - --image=gcr.io/$PROJECT_ID/deiyv:$SHORT_SHA
+      - --region=us-central1
+      - --allow-unauthenticated
+      - --min-instances=0
+      - --max-instances=3
+      - --memory=128Mi
+      - --cpu=1
+      - --concurrency=80
+      - --port=8080
+      - --cpu-throttling
+images:
+  - gcr.io/$PROJECT_ID/deiyv:$SHORT_SHA
+  - gcr.io/$PROJECT_ID/deiyv:latest
+options:
+  logging: CLOUD_LOGGING_ONLY

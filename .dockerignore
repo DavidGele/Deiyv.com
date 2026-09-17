@@ -1,0 +1,7 @@
+.git
+README.md
+cloudbuild.yaml
+firebase.json
+.firebaserc
+deploy
+*.md
