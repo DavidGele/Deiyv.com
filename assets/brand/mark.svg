@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" fill="none" aria-hidden="true">
+  <path d="M60 6 L114 60 L60 114 L6 60 Z" stroke="currentColor" stroke-width="8" stroke-linejoin="miter"/>
+  <path d="M60 22 L98 60 L60 98 L22 60 Z" stroke="currentColor" stroke-width="7" stroke-linejoin="miter"/>
+  <path d="M60 40 L80 60 L60 80 L40 60 Z" fill="currentColor"/>
+</svg>
