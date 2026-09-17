@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://deiyv.com/sitemap.xml
+Host: https://deiyv.com
